@@ -1,0 +1,311 @@
+<HTML>
+<HEAD>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+// Set up the list of commodities
+var commodity_array = [
+    "Industrial Ore/Gems",
+    "Strategic Ore/Gems",
+    "Semi-Precious Ore/Gems",
+    "Precious Ore/Gems",
+    "Assorted Supplies",
+    "Medkits",
+    "Pharmaceuticals",
+    "Bacta (In 50-liter drums)",
+    "Medpacs",
+    "Bacta Tanks (2)",
+    "Comlinks (5,000)",
+    "Datapads (300)",
+    "Credit Chips (5,000)",
+    "Datacards, Blank (40,000)",
+    "Datacards, w/One Program (5,000)",
+    "Electrobinoculars (800)",
+    "Fusion Lanterns (400)",
+    "Glow Rods (800)",
+    "Holoprojectors, Personal (5,000)",
+    "Holorecorders (800)",
+    "Macrobinoculars (1,000)",
+    "Power Packs/Energy Cells (5,000)",
+    "Recording Rods (800)",
+    "Sensor Packs (80)",
+    "Computer Parts",
+    "Droid Parts",
+    "Vehicle Parts",
+    "Starship Parts",
+    "Inert Chemicals",
+    "Flammable Liquids",
+    "Corrosive Substances",
+    "Lubricants",
+    "Adhesives",
+    "Controlled Substances",
+    "Acklay (1)",
+    "Bantha (1)",
+    "Dewback (1)",
+    "Gundark (1)",
+    "Massifs (2)",
+    "Nexu (1)",
+    "Rancor (1)",
+    "Reek (1)",
+    "Tauntaun (1)",
+    "Labor Droids (4)",
+    "Protocol Droids (4)",
+    "Power Droids (2)",
+    "Medical Droids (3)",
+    "Astromech Droids (3)",
+    "Battle Droids (8)",
+    "Light Armor (80 suits)",
+    "Medium Armor (30 suits)",
+    "Heavy Armor (20 suits)",
+    "Powered Armor (10 suits)",
+    "Knives (800)",
+    "Combat Gloves (800 pairs)",
+    "Stun Batons (400)",
+    "Vibrodaggers (800)",
+    "Vibroblades (400)",
+    "Vibro-Axes (300)",
+    "Hold-Out Blasters (1,500)",
+    "Blaster Pistols (400)",
+    "Blaster Rifles (150)",
+    "Heavy Blasters (400)",
+    "Stun Grenades (1,500)",
+    "Landspeeder (1)",
+    "Speeder Bike (1)",
+    "Air Speeder/Swoop (1)",
+    "Cargo Skiff (1)",
+    "Escape Pod (1)",
+    "Starfighter (1)",
+    "Space Transport (1)"
+];
+
+// Calculate a base diplomacy skill based on the size of the community
+function CalcDiplomacySkill (community_size)
+{
+    var diplomacy_skill = 0;
+
+    diplomacy_skill = Math.floor(Math.random()*4+1); // Base of a d4
+    //console.log(diplomacy_skill);
+    //console.log(community_size);
+
+    switch (parseInt(community_size))
+    {
+        case 1 : diplomacy_skill+=2; break;
+        case 2 : diplomacy_skill+=3; break;
+        case 3 : diplomacy_skill+=4; break;
+        case 4 : diplomacy_skill+=5; break;
+        case 5 : diplomacy_skill+=8; break;
+        case 6 : diplomacy_skill+=11; break;
+        case 7 : diplomacy_skill+=14; break;
+        case 8 : diplomacy_skill+=17; break;
+        case 9 : diplomacy_skill+=20; break;
+        default : 0; break;
+    }
+
+    // return the diplomacy skill
+    //console.log(diplomacy_skill);
+    return diplomacy_skill;
+
+}
+
+// Calculate the tons avaiable to purchase based on the community size
+function TonsAvailable(community_size)
+{
+    var available_tons = 0;
+
+    //console.log(community_size);
+    switch ( parseInt(community_size) )
+    {
+        // Thorp - d6 Metric Tons
+        case 1 :
+            available_tons = Math.floor(Math.random()*6+1);
+            break;
+
+        // Hamlet - 2d6 Metric Tons
+        case 2 :
+            available_tons = Math.floor(Math.random()*6+1) +
+                             Math.floor(Math.random()*6+1);
+            break;
+
+        // Village - 2d10 Metric Tons
+        case 3 :
+            available_tons = Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1);
+            break;
+
+        // Small Town - 5d10 Metric Tons
+        case 4 :
+            available_tons = Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1);
+            break;
+
+        // Large Town - 5d10x2
+        case 5 :
+            available_tons = (Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1)
+                             )*2;
+            break;
+
+        // Small City - 5d10x5
+        case 6 :
+            available_tons = (Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1)
+                             )*5;
+            break;
+
+        // Large City - 5d10x10
+        case 7 :
+            available_tons = (Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1)
+                             )*10;
+            break;
+
+        // Metropolis - 5d10x20
+        case 8 :
+            available_tons = (Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1)
+                             )*20;
+            break;
+
+        // Megalopolis - 5d10x30
+        case 9 :
+            available_tons = (Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1) +
+                             Math.floor(Math.random()*10+1)
+                             )*30;
+            break;
+        default :
+            available_tons = 99;
+            break;
+    }
+    //console.log(available_tons);
+    return available_tons;
+}
+
+// Do calculations when user presses the Roll'em button
+function Rollem(nameform)
+{
+
+    var commodity_display = ""; // Primary commodity results window
+    var commodity_modifier = ""; // Modifier results window
+    var commodity_available_tons = ""; // Tons available
+    var random_d20 = []; // Random d20 array to get Value Modifier
+    var availability_percent = []; // Value Modifier array
+    var available_tons = []; // Available tons array - based on community size
+    var community_diplomacy_skill = 0;
+
+    // Do a random for each item in the commodity_array
+    // Random number from 1-20
+    for (j=0;j<commodity_array.length;j++){
+
+        // Do a random d20 roll and store the value in the first item
+        random_d20[j]=Math.floor(Math.random()*20+1);
+
+        // Convert the random d20 to supply availability
+        switch (random_d20[j])
+        {
+            case 1 : availability_percent[j] = "+30%"; break; // Critically Low
+            case 2 : case 3 : availability_percent[j] = "+20%"; break; // Very Low
+            case 4 : case 5 : case 6 : availability_percent[j] = "+10%"; break; // Low
+            case 7 : case 8 : case 9 : case 10 : availability_percent[j] = "0%"; break; // Average
+            case 11 : case 12 : case 13 : case 14 : availability_percent[j] = "-5%"; break; // Above Average
+            case 15 : case 16 : case 17 : availability_percent[j] = "-10%"; break; // High
+            case 18 : case 19 : availability_percent[j] = "-15%"; break; // Very High
+            case 20 : availability_percent[j] = "-20%"; break; // Surplus
+            default : availability_percent[j] = "?"; break;
+        }
+
+        // Get available tons for the commodity
+        available_tons[j] = TonsAvailable(nameform.community_size.value);
+
+        // Build text for display
+        commodity_display+=commodity_array[j] + "\n";
+        commodity_modifier+=availability_percent[j] + "\n"
+        commodity_available_tons+=available_tons[j] + "\n";
+    }
+
+        // Display the community diplomacy skill
+    community_diplomacy_skill = CalcDiplomacySkill(nameform.community_size.value);
+
+    // Display results to the three fields
+    nameform.commodity_supply.value=commodity_display;
+    nameform.commodity_modifier.value=commodity_modifier;
+    nameform.commodity_tons.value=commodity_available_tons;
+    nameform.commodity_diplomacy.value=community_diplomacy_skill;
+
+}
+
+</SCRIPT>
+
+
+<TITLE>Star Wars Random Commodity Supply</TITLE>
+
+<STYLE type="text/css">
+textarea {
+ background-color: cyan;
+ text-align: center;
+ font-size: 1.5em;
+ font-weight: bold;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ border: 1px solid black;
+}
+</STYLE>
+
+</HEAD>
+
+<BODY style="font-size: 1em" bgcolor="#000000" text="#CCCCCC" link="#CCCCFF" vlink="#FFFFCC" leftmargin="1" topmargin="4">
+    <CENTER>
+    <FORM name="form_1">
+
+    <h1>Star Wars Commodity Supply</h1>
+    <p>
+
+    Community Size
+    <select style="font-size:24px" name=community_size size=1>
+    <option value="1">Thorp
+    <option value="2">Hamlet
+    <option value="3">Village
+    <option value="4">Small Town
+    <option value="5">Large Town
+    <option SELECTED value="6">Small City
+    <option value="7">Large City
+    <option value="8">Metropolis
+    <option value="9">Megalopolis
+    </select>
+
+    <p>
+
+    Community Diplomacy Skill:
+    <textarea name="commodity_diplomacy" rows=1 cols=5> </textarea>
+    <p>
+    <input style="font-size:24px" type=button name=gen value="Roll 'em" onClick="Rollem(this.form)">
+
+    <p>
+
+    Commodity / Supply Modifier / Available Tons
+    <p>
+    <textarea name="commodity_supply" rows=72 cols=35></textarea>
+    <textarea name="commodity_modifier" rows=72 cols=6></textarea>
+    <textarea name="commodity_tons" rows=72 cols=6></textarea>
+
+    </FORM>
+    </CENTER>
+
+</BODY>
+</HTML>
